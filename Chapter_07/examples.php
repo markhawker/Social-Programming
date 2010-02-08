@@ -83,11 +83,8 @@ $example_2_json = json_encode($example_2);
     <p><a href="#" onclick="get_write_permission();" />Get Write Permission and Post to Feed Form</a></p>
     <p><a href="#" onclick="get_read_permission();" />Get Read Permission</a></p>
   <? } ?>
-  <fb:share-button class="meta" type="button_count">
-    <meta name="title" content="Facebook" />
-    <meta name="description" content="Facebook Home Page" />
-    <link rel="image_src" href="http://static.ak.facebook.com/images/wiki_logo.png" />
-  </fb:share-button>
+  <a name="fb_share" type="button_count" share_url="http://www.google.com">Share</a>
+  <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_GB" type="text/javascript"></script>
   <script type="text/javascript">
     FB.init("<?php echo API_KEY; ?>", "xd_receiver.htm", {'reloadIfSessionStateChanged': true});
