@@ -25,8 +25,12 @@ try {
     }
     $email_hashes = json_encode($email_addresses);
     $removed_email_hashes = $facebook->api_client->connect_unregisterUsers($email_hashes);
-    foreach($removed_email_hashes as $email_hash) {
+    if(is_string($removed_email_hashes)) {
+     fwrite($file_handler, $removed_email_hashes.' (string, '); 
+    } else {
+     foreach($removed_email_hashes as $email_hash) {
       fwrite($file_handler, $email_hash.', ');
+     }
     }
     fwrite($file_handler, "Success.");
   } else {
