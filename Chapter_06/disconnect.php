@@ -18,7 +18,7 @@ $disconnect = $facebook->api_client->auth_revokeAuthorization();
 </head>
 <body>
  <h1>User Disconnected</h1>
- <p>Status: <?php echo $disconnect; ?></p>
+  <p>Status: <?php echo ($disconnect ? "Successful" : "Failed"); ?></p>
  <p><a href="index.php">Back Home</a></p>
 </body>
 </html>

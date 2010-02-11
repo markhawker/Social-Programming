@@ -53,8 +53,8 @@ if($official_user) {
    <?php if($unconnected_friends_count > 0) { ?>
     <p><a href="#" onclick="FB.Connect.inviteConnectUsers(); return false;">Invite Facebook Friends</a></p>
    <?php } ?>
+   <p><a href="disconnect.php">Disconnect Facebook Details</a></p>
   <?php } ?>
-  <p><a href="disconnect.php">Disconnect Facebook Details</a></p>
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_GB" type="text/javascript"></script>
   <script type="text/javascript">
     function connected() {
