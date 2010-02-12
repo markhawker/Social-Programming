@@ -4,9 +4,14 @@ include 'config.php';
 include 'facebook-platform/php/facebook.php';
 
 $facebook = new Facebook(API_KEY, SECRET);
-$user = $facebook->get_loggedin_user();
 
-$disconnect = $facebook->api_client->auth_revokeAuthorization();
+try {
+ $user = $facebook->get_loggedin_user();
+ $disconnect = $facebook->api_client->auth_revokeAuthorization();
+}
+catch (Exception $e) {
+ // There was an exception
+}
 
 ?>
 
