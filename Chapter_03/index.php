@@ -11,6 +11,7 @@ try {
 }
 catch(EpiOAuthException $e) { 
  echo '<p>There was an OAuth exception.</p>';
+ echo '<ul><li>Check that you have entered a valid Consumer Key and Consumer Secret.</li><li>Check that your PHP version is 5.2+ which supports multicurl.</li><li>Check that you have the current version of the <a href="http://github.com/jmathai/twitter-async">twitter-async library</a>.</li></ul>';
  echo '<p>*** STACK TRACE ***</p>'; 
  print_r($e); 
  echo '<p>*** END OF STACK TRACE ***</p>';
