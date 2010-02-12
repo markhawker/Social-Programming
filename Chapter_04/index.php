@@ -9,8 +9,20 @@ try {
  $authenticate_url_forced = $twitter->getAuthenticateUrl(null, array('force_login' => true));
  $authenticate_url_unforced = $twitter->getAuthenticateUrl();
 }
-catch(EpiOAuthException $e) { print_r($e); exit; }
-catch(EpiTwitterException $e) {print_r($e); exit; }
+catch(EpiOAuthException $e) { 
+ echo '<p>There was an OAuth exception.</p>';
+ echo '<p>*** STACK TRACE ***</p>'; 
+ print_r($e); 
+ echo '<p>*** END OF STACK TRACE ***</p>';
+ exit;
+}
+catch(EpiTwitterException $e) { 
+ echo '<p>There was an unknown exception.</p>';
+ echo '<p>*** STACK TRACE ***</p>'; 
+ print_r($e); 
+ echo '<p>*** END OF STACK TRACE ***</p>';
+ exit;
+}
 
 ?>
 
