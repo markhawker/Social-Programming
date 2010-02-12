@@ -47,7 +47,7 @@ function logout() {
 }
 
 function verify($twitter) {
- if ($twitter) {
+ if (is_object($twitter)) {
   $response = $twitter->get_accountVerify_credentials();
   return check($response);
  } else {
