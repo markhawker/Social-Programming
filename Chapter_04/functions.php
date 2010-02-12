@@ -27,7 +27,8 @@ function login() {
    setcookie('oauth_token_secret', $token->oauth_token_secret);
    header('Location: '.MASTER.'?loggedin');	
   }
-  catch(EpiTwitterException $e) { header('Location: '.INDEX.'?oauthexception'); }
+  catch(EpiOAuthException $e) { header('Location: '.INDEX.'?oauthexception'); }
+  catch(EpiTwitterException $e) { header('Location: '.INDEX.'?exception'); }
  } else if (empty($_COOKIE['oauth_token']) && empty($_COOKIE['oauth_token_secret'])) {
   setcookie('oauth_token', '', 1);
   setcookie('oauth_token_secret', '', 1);
