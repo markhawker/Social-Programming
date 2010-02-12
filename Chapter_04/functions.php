@@ -47,8 +47,12 @@ function logout() {
 }
 
 function verify($twitter) {
- $response = $twitter->get_accountVerify_credentials();
- return check($response);
+ if (is_object($twitter)) {
+  $response = $twitter->get_accountVerify_credentials();
+  return check($response);
+ } else {
+  return false;
+ }
 }
 
 function check($payload) {
