@@ -9,10 +9,8 @@ try {
  $authenticate_url_forced = $twitter->getAuthenticateUrl(null, array('force_login' => true));
  $authenticate_url_unforced = $twitter->getAuthenticateUrl();
 }
-catch(EpiTwitterException $e) {
- echo 'Invalid Consumer Key and Consumer Secret.';
- exit; 
-}
+catch(EpiOAuthException $e) { print_r($e); exit; }
+catch(EpiTwitterException $e) { print_r($e); exit; }
 
 ?>
 
