@@ -66,6 +66,7 @@ $example_2_json = json_encode($example_2);
     }
     ?>
     <p>Official Client User: <?php echo $official_user; ?></p>
+    <p><fb:bookmark type="off-facebook"></fb:bookmark></p>
     <?
     echo '<h1>Shares</h1>';
     print_r($shares);
