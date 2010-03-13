@@ -1,0 +1,71 @@
+body { background: #fff; font: normal 12px/1.6 "Luxi Sans", "Lucida Grande", Verdana, sans-serif; margin: 0; text-align: justify; color: #000; }
+
+a { color: #1985b5; font-weight: bold; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { border: 0; }
+
+input[type=text], input[type=password] { display: block; margin: 0 0 1em 0; width: 580px; border: 5px; padding: 1em; }
+input[type=submit], form a { font-weight: normal; border: none; margin-right: 1em; padding: 6px; text-decoration: none; font-size: 1em; background: #fff; color: #000; }
+input[type=submit]:hover, form a:hover { background: #1985b5; cursor: pointer; color: #fff; text-decoration: none; }
+
+label { display: block; padding-bottom: 5px; }
+
+table { margin-bottom: 10px; }
+td { padding: 5px; }
+
+#facebook_permissions { font-size: 1.2em; background: #f9b; padding: 10px; display: block; width: 100%; color: #fff; }
+
+#facebook_permissions a { color: #fff; font-weight: bold; }
+
+.error { font-size: 1.2em; background: #f9b; padding: 10px; }
+
+.twitter_message { font-size: 1.2em; background: #3cf; padding: 10px; color: #fff; }
+.facebook_message { font-size: 1.2em; background: #3b5998; padding: 10px; color: #fff; }
+.google_message { font-size: 1.2em; background: #ff4747; padding: 10px; color: #fff; }
+
+.controls { display: block; } 
+
+.update, .comment { padding: 10px; border-left-width: 10px; border-left-style: solid; display: block; width: 100%; margin-bottom: 10px; }
+
+.update p, .comment p { font-size: 1.2em; }
+
+.update .date, .comment .date { margin-right: 5px; color: #ddd; } 
+
+.s { border-left-color: #fbed73; }
+.t { border-left-color: #3cf; }
+.f { border-left-color: #3b5998; }
+.g { border-left-color: #ff4747; }
+.n { border-left-color: #eee; }
+
+.like_count, .comment_count, .delete { font-size: 0.8em; padding: 5px; margin-right: 5px; }
+
+.like_count a, .comment_count a, .delete a { padding: 5px; background: #fff; }
+
+.like_count a:hover { background: #eee; text-decoration: none; }
+.comment_count a:hover { background: #ddd; text-decoration: none; }
+.delete a:hover { background: #f9b; color: #fff; text-decoration: none; }
+
+.username { font-weight: bold; color: #ddd; }
+.original { font-size: 1.2em; }
+
+#pagination a, #pagination strong { background: #eee; padding: 4px 7px; text-decoration: none; }
+#pagination strong, #pagination a:hover { background: #ddd; }
+
+#wrap { margin: 2em; width: 600px; }
+
+#header { margin: 1em 0 2em 0; padding: 0 0 0 2em; }
+#header h1 { color: #1985b5; font-family: Verdana, sans-serif; font-size: 2.5em; letter-spacing: -1px; font-weight: bold; }
+#header h1 span { font-weight: normal; color: #eee; }
+#header img { vertical-align: middle; }
+
+#description { background: #fbed73; margin: 1em 0 0 0; margin: 0 0 0 -2em; padding: 0.5em 0 0.5em 2em; font-size: 1.75em; }
+#description p { margin: 0; width: 600px; }
+
+#logged_in_via { background: #eee; margin: 1em 0 0 0; margin: 0 0 0 -2em; padding: 0.5em 0 0.5em 2em; font-size: 1.75em; }
+#logged_in_via p { margin: 0; width: 600px; }
+
+#content {}
+
+#login, #register, #update, #comment { width: 600px; background: #eee; padding: 1em; }
+
+#footer { margin-top: 15px; }

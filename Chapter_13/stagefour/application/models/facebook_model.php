@@ -50,7 +50,7 @@ class Facebook_Model extends Model {
     $facebook_logout = $this->session->userdata('facebook_logout');
     $facebook_user = $this->get_user();
     if($facebook_user && !$is_logged_in && !$facebook_logout) {
-      $data = $this->check_user($facebook_user);
+      $this->check_user($facebook_user);
     }
     $this->session->set_userdata('facebook_logout', false);
   }

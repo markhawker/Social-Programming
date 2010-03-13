@@ -72,7 +72,10 @@ define('CANVAS_CALLBACK_URL', 'INSERT CANVAS CALLBACK URL HERE'); // Excluding T
 |
 */
 
-define('SITE_ID', 'INSERT APP ID HERE'); // Edit Me
+define('GFC_SITE_ID', 'INSERT APP ID HERE'); // Edit Me
+define('GFC_CONSUMER_KEY', 'INSERT CONSUMER KEY HERE'); // Edit Me
+define('GFC_CONSUMER_SECRET', 'INSERT CONSUMER SECRET HERE'); // Edit Me
+define('GFC_PARENT_URL', '/'); // Edit Me
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
