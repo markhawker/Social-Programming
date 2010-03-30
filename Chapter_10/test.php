@@ -37,7 +37,7 @@ if(isset($_REQUEST['authenticate'])) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-  <title>My First OpenSocial Test Page</title>
+  <title>My OpenSocial Test Page</title>
   <!-- Load the Google AJAX API Loader //-->
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <!-- Load the Google Friend Connect JavasSript Library. //-->
@@ -83,6 +83,84 @@ if(isset($_REQUEST['authenticate'])) {
   if($cookie) {
     // Set Up Google Friend Connect Provider 	
     echo '<p>We have the Google Friend Connect cookie.</p>';
+    require_once "osapi/osapi.php";
+    $provider = new osapiFriendConnectProvider();
+    $authentication = new osapiFCAuth($cookie);
+    $opensocial = new osapi($provider, $authentication);
+	$batch = $opensocial->newBatch();
+	$viewerParameters = array(
+	  'userId' => '@me',
+	  'groupId' => '@self',
+      'fields' => '@all'
+	);
+	$getViewer = $opensocial->people->get($viewerParameters);
+	$getActivities = $opensocial->activities->get($viewerParameters);
+	$batch->add($getViewer, 'viewer');
+	$batch->add($getActivities, 'activities');
+	$response = $batch->execute();
+	$viewer = $response['viewer'];
+	if ($viewer instanceof osapiError) {
+	  $code = $viewer->getErrorCode();
+	  $message = $viewer->getErrorMessage();
+	  // Process OpenSocial API Error
+    } else {
+      $viewerName = htmlentities($viewer->getName());
+	  $viewerThumbnailUrl = htmlentities($viewer->getThumbnailUrl());
+	  echo '<p>Hello, '.$viewerName.'.</p>';
+	  echo '<p>Profile URL: '.$viewer->profileUrl.'</p>';
+	  echo '<p>Thumbnail URL: '.$viewer->thumbnailUrl.'</p>';
+	  echo '<h2>Photos</h2>';
+	  echo '<ul>';
+	  foreach($viewer->photos as $photo) {
+	    echo '<li>'.$photo['type'].': '.$photo['value'].'</li>';
+	  }
+	  echo '</ul>';
+	  echo '<h2>URLs</h2>';
+	  echo '<ul>';
+	  foreach($viewer->urls as $url) {
+	    echo '<li>'.($url['type'] ? $url['type'] : 'none').': <a href="'.$url['value'].'">'.(!empty($url['linkText']) ? $url['linkText'] : 'Unknown').'</a></li>';
+	  }
+	  echo '</ul>';
+	}
+    $activities = $response['activities'];
+	if ($activities instanceof osapiError) {
+	  $code = $activities->getErrorCode();
+	  $message = $activities->getErrorMessage();
+	  // Process OpenSocial API Error
+    } else {
+      echo '<h2>Activities</h2>';
+      echo '<ul>';
+      foreach($activities->list as $activity) {
+        echo '<li>'.htmlentities($activity->getTitle()).'</li>';
+      }
+      echo '</ul>';
+	}
+	$batch = $opensocial->newBatch();
+    $memberParameters = array(
+      'userId' => '@owner',
+      'groupId' => '@friends',
+      'fields' => '@all',
+      'count' => 3,
+      'startIndex' => 1
+    );
+    $getMembers = $opensocial->people->get($memberParameters);
+    $batch->add($getMembers, 'members');
+    $response = $batch->execute();
+    $members = $response['members'];
+    if ($members instanceof osapiError) {
+      $code = $members->getErrorCode();
+      $message = $members->getErrorMessage();
+      echo $message;
+      // Process OpenSocial API Error
+    } else {
+      echo '<h2>Members</h2>';
+      echo '<ol>';
+      foreach($members->list as $member) {
+        echo '<li>'.htmlentities($member->getName()).'</li>';
+      }
+      echo '</ol>';
+      echo '<p>Total Results: '.$members->totalResults.'</p>';
+    }
   }
   else {
     echo '<p>We don\'t have the Google Friend Connect cookie.</p>';	
