@@ -1,6 +1,6 @@
  </div>
  <div id="footer"> 
-  <p>Themed by <a href="http://markhawker.tumblr.com">markhawker</a> using original theme by <a href="http://www.tumblr.com/themes/by/sparo">sparo</a>. Origami icon by <a href="http://twitter.com/poccuo">poccuo</a>.</p> 
+  <p>Themed by <a href="http://markhawker.tumblr.com">markhawker</a> using original theme by <a href="http://www.tumblr.com/themes/by/sparo">sparo</a>.</p> 
  </div>
 </div>
 <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
