@@ -1,4 +1,4 @@
-<?
+<?php
 
 include 'config.php';
 include 'functions.php';
@@ -50,14 +50,14 @@ $example_2_json = json_encode($example_2);
 </head>
 <body>
   <fb:login-button v="2" autologoutlink="true"></fb:login-button>
-  <?
+  <?php
   if($official_user) { 
     try {
       $extended_permissions = $facebook->api_client->fql_query('SELECT uid, publish_stream, read_stream FROM permissions WHERE uid = "'.$official_user.'"');
       $page_administrations = $facebook->api_client->fql_query('SELECT uid, page_id, type FROM page_admin WHERE uid = "'.$official_user.'"');
       $shares = $facebook->api_client->fql_query('SELECT normalized_url, share_count, like_count, comment_count, total_count, click_count FROM link_stat WHERE url IN ("facebook.com", "google.com")');
       $comments = $facebook->api_client->comments_get('test');
-      $filter_key = $app_id;
+      $filter_key = APP_ID;
       $stream = $facebook->api_client->stream_get(null, null, null, null, 5, $filter_key, null);
       // $comment = $facebook->api_client->comments_add('test', 'This is an API test.');
     }
@@ -67,7 +67,7 @@ $example_2_json = json_encode($example_2);
     ?>
     <p>Official Client User: <?php echo $official_user; ?></p>
     <p><fb:bookmark type="off-facebook"></fb:bookmark></p>
-    <?
+    <?php
     echo '<h1>Shares</h1>';
     print_r($shares);
     echo '<h1>Comments</h1>';
@@ -83,7 +83,7 @@ $example_2_json = json_encode($example_2);
     <p><a href="#" onclick="get_permissions();" />Request Read and Write Permissions</a></p>
     <p><a href="#" onclick="get_write_permission();" />Get Write Permission and Post to Feed Form</a></p>
     <p><a href="#" onclick="get_read_permission();" />Get Read Permission</a></p>
-  <? } ?>
+  <?php } ?>
   <a name="fb_share" type="button_count" share_url="http://www.google.com">Share</a>
   <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_GB" type="text/javascript"></script>
