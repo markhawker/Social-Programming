@@ -173,6 +173,8 @@ class Sprog extends Controller {
       $facebook_id = $this->facebook_model->get_facebook_id($update_id);
       if($has_facebook_permissions && $facebook_id) {
 	    $comment_id = $this->facebook_model->comment($facebook_id, $comment);
+	  } else {
+	  	$comment_id = null;
 	  }
       $this->sprog_model->post_comment($update_id, $username, $comment, $source, $comment_id);
       redirect('sprog/home');

@@ -19,7 +19,7 @@
  
 </div>
 
-<? } ?>
+<?php } ?>
 
 <div id="latest">
  <h2>Original</h2>
