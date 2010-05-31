@@ -20,7 +20,7 @@ $unofficial_user = ($valid_facebook_session ? $_COOKIE[API_KEY.'_user'] : false)
  <title>Test Tube</title>
 </head>
 <body>
- <h1>Test Facebook Connect Page</h1>
+ <h1>Test Facebook Platform Page</h1>
  <p>Official Client User: <?php echo $official_user; ?></p>
  <p>Unofficial Client User: <?php echo $unofficial_user; ?></p>
 
