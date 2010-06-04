@@ -12,7 +12,7 @@ switch($source) {
    $data['via'] = '<b>Twitter</b>';
    break;  
  case 'f':
-   $data['via'] = '<b>Facebook Connect</b>';
+   $data['via'] = '<b>Facebook</b>';
    break;
  case 'g':
    $data['via'] = '<b>Google Friend Connect</b>';

@@ -165,10 +165,10 @@ class Sprog extends Controller {
     $data['twitter_url'] = $this->twitter->get_url();
     $data['error'] = ($error =='error' ? 'The username or password you supplied was incorrect, please try again.' : false);
     if($this->session->userdata('twitter_id')) {
-      $data['has_twitter'] = 'You are signed in with Twitter, but you must login or register with us to link accounts. You will only have to do this once.';
+      $data['has_twitter'] = 'You are signed in with Twitter, but you must log in or register with us to link accounts. You will only have to do this once.';
     }
     $data['content'] = 'sprog/login';
-    $data['title'] = 'Login, Please!';
+    $data['title'] = 'Log In, Please!';
     $this->load->view('sprog/includes/template', $data);
   }
 
@@ -178,7 +178,7 @@ class Sprog extends Controller {
     $this->is_logged_in();
     $data['error'] = ($error == 'error' ? 'The username you supplied already exists, please choose another.' : false);
     if($this->session->userdata('twitter_id')) {
-      $data['has_twitter'] = 'You are signed in with Twitter, but must login or register a new account to link. You will only have to do this once.';
+      $data['has_twitter'] = 'You are signed in with Twitter, but must log in or register a new account to link. You will only have to do this once.';
     }
     $data['content'] = 'sprog/register';
     $data['title'] = 'Register, Please!';

@@ -15,7 +15,7 @@ class Sprog extends Controller {
   	$this->is_logged_in();
     $data['error'] = ($error ? 'The username or password you supplied was incorrect, please try again.' : false);
     $data['content'] = 'sprog/login';
-    $data['title'] = 'Login, Please!';
+    $data['title'] = 'Log In, Please!';
     $this->load->view('sprog/includes/template', $data);
   }
   
