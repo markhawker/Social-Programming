@@ -14,7 +14,9 @@ $unofficial_user = ($valid_facebook_session ? $_COOKIE[API_KEY.'_user'] : false)
 if($official_user) {
  try {
   $app_friends = $facebook->api_client->friends_getAppUsers();
-  $unconnected_friends_count = $facebook->api_client->connect_getUnconnectedFriendsCount();
+  // connect.getUnconnectedFriendsCount deprecated January 7, 2011.
+  // $unconnected_friends_count = $facebook->api_client->connect_getUnconnectedFriendsCount();
+  $unconnected_friends_count = 0;
   $locale = $facebook->api_client->fql_query('SELECT locale FROM user WHERE uid = "'.$official_user.'"');
  }
  catch (Exception $e) {
