@@ -1,33 +1,37 @@
 <?php
 
 include 'config.php';
-include 'functions.php';
-include 'facebook-platform/php/facebook.php';
+include 'facebook-platform/src/facebook.php';
 
-$facebook = new Facebook(API_KEY, SECRET);
-$official_user = $facebook->get_loggedin_user();
+$facebook = new Facebook(array(
+  'appId' => APP_ID,
+  'secret' => SECRET
+));
 
-$valid_facebook_session = valid_facebook_session($_COOKIE[API_KEY.'_expires'], $_COOKIE[API_KEY.'_session_key'], $_COOKIE[API_KEY.'_ss'], $_COOKIE[API_KEY.'_user'], $_COOKIE[API_KEY], SECRET);
+$user = $facebook->getUser();
 
-$unofficial_user = ($valid_facebook_session ? $_COOKIE[API_KEY.'_user'] : false); 
-
-if($official_user) {
+if($user) {
  try {
-  $app_friends = $facebook->api_client->friends_getAppUsers();
-  // connect.getUnconnectedFriendsCount deprecated January 7, 2011.
-  // $unconnected_friends_count = $facebook->api_client->connect_getUnconnectedFriendsCount();
-  $unconnected_friends_count = 0;
-  $locale = $facebook->api_client->fql_query('SELECT locale FROM user WHERE uid = "'.$official_user.'"');
+  $app_friends = $facebook->api(array(
+   'method' => 'friends.getAppUsers'
+  ));
+  $locale = $facebook->api(array(
+   'method' => 'fql.query',
+   'query' => 'SELECT locale FROM user WHERE uid = "'.$user.'"'
+  ));
  }
  catch (Exception $e) {
-  // There was an exception
+  $user = null;
  }
+}
+
+if ($user) {
+  $logout_url = $facebook->getLogoutUrl();
 } else {
- $unconnected_friends_count = 0;
+  $login_url = $facebook->getLoginUrl();
 }
 
 ?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -38,11 +42,15 @@ if($official_user) {
  <fb:window-title style="display: none;">
   <fb:intl desc="Title of the Web page.">Test Tube</fb:intl>
  </fb:window-title>
- <fb:login-button autologoutlink="true" onlogin="connected();"></fb:login-button>
- <?php echo '<p><fb:intl desc="Label for user identifier.">User Identifier:</fb:intl> '.($official_user ? $official_user : '<fb:intl desc="Label for unknown data.">Unknown</fb:intl>').'</p>'; ?>
-<p><fb:intl desc="Label for Facebook name.">Facebook Name:</fb:intl> <span id="facebook_name"><fb:intl desc="Label for unknown data.">Unknown</fb:intl></span></p>
+ <?php if ($user): ?>
+  <p><a href="<?php echo $logout_url; ?>"><img src="http://static.ak.fbcdn.net/rsrc.php/v1/yf/r/C9lMHpC5ik8.gif" alt="Logout" /></a></p>
+ <?php else: ?>
+  <p><a href="<?php echo $login_url; ?>"><img src="http://static.ak.fbcdn.net/rsrc.php/v1/yq/r/RwaZQIP0ALn.gif" alt="Connect with Facebook" /></a></p>
+ <?php endif ?>
+ <?php if($user) { ?>
+   <p><fb:intl desc="Label for user identifier.">User Identifier:</fb:intl> <?php echo ($user ? $user : '<fb:intl desc="Label for unknown data.">Unknown</fb:intl>'); ?></p>
+   <p><fb:intl desc="Label for Facebook name.">Facebook Name:</fb:intl> <span id="facebook_name"><fb:intl desc="Label for unknown data.">Unknown</fb:intl></span></p>
    <p><fb:intl desc="Label for Facebook Connect status.">Facebook Connect Status:</fb:intl> <span id="connect_status"><fb:intl desc="Label for unknown data.">Unknown</fb:intl></span></p>
- <?php if($official_user) { ?>
    <p><fb:intl desc="Label for connected friends.">Connected Friends:</fb:intl></p>
    <ul>
     <?php
@@ -55,10 +63,6 @@ if($official_user) {
     }
     ?>
    </ul>
-   <p><fb:intl desc="Label for unconnected friends.">Unconnected Friends:</fb:intl> <fb:unconnected-friends-count></fb:unconnected-friends-count></p>
-   <?php if($unconnected_friends_count > 0) { ?>
-    <p><a href="#" onclick="FB.Connect.inviteConnectUsers(); return false;"><fb:intl desc="Link to invite Facebook friends.">Invite Facebook Friends</fb:intl></a></p>
-   <?php } ?>
    <p><a href="disconnect.php"><fb:intl desc="Link to disconnect Facebook details.">Disconnect Facebook Details</fb:intl></a></p>
   <?php } ?>
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/<?php echo $locale[0]['locale']; ?>" type="text/javascript"></script>

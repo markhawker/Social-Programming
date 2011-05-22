@@ -1,16 +1,19 @@
 <?php
 
 include 'config.php';
-include 'functions.php';
-include 'facebook-platform/php/facebook.php';
+include 'facebook-platform/src/facebook.php';
 
-$facebook = new Facebook(API_KEY, SECRET);
-$official_user = $facebook->get_loggedin_user();
+$facebook = new Facebook(array(
+  'appId' => APP_ID,
+  'secret' => SECRET
+));
+
+$user = $facebook->getUser();
 
 $example_1 = array(
  'name' => 'Facebook',
  'href' => 'http://www.facebook.com/',
- 'description' => 'Facebook Home Page',
+ 'description' => 'Facebook Home Page.',
  'media' => array(
    array(
      'type' => 'image',
@@ -23,7 +26,7 @@ $example_1 = array(
 $example_2 = array(
  'name' => 'Facebook Song',
  'href' => 'http://www.youtube.com/watch?v=rSnXE2791yg',
- 'description' => 'Rhett and Link\'s Facebook Song',
+ 'description' => 'Rhett and Link\'s Facebook Song.',
  'media' => array(
   array(
    'type' => 'flash',
@@ -51,34 +54,41 @@ $example_2_json = json_encode($example_2);
 <body>
   <fb:login-button v="2" autologoutlink="true"></fb:login-button>
   <?php
-  if($official_user) { 
+  if($user) { 
+    $access_token = $facebook->getAccessToken();
     try {
-      $extended_permissions = $facebook->api_client->fql_query('SELECT uid, publish_stream, read_stream FROM permissions WHERE uid = "'.$official_user.'"');
-      $page_administrations = $facebook->api_client->fql_query('SELECT uid, page_id, type FROM page_admin WHERE uid = "'.$official_user.'"');
-      $shares = $facebook->api_client->fql_query('SELECT normalized_url, share_count, like_count, comment_count, total_count, click_count FROM link_stat WHERE url IN ("facebook.com", "google.com")');
-      $comments = $facebook->api_client->comments_get('test');
-      $filter_key = APP_ID;
-      $stream = $facebook->api_client->stream_get(null, null, null, null, 5, $filter_key, null);
-      // $comment = $facebook->api_client->comments_add('test', 'This is an API test.');
+      $extended_permissions = $facebook->api(array(
+       'method' => 'fql.query',
+       'query' => 'SELECT uid, publish_stream, read_stream FROM permissions WHERE uid = "'.$user.'"'
+      ));
+      $page_administrations = $facebook->api(array(
+       'method' => 'fql.query',
+       'query' => 'SELECT uid, page_id, type FROM page_admin WHERE uid = "'.$user.'"'
+      ));
+      $shares = $facebook->api(array(
+       'method' => 'fql.query',
+       'query' => 'SELECT normalized_url, share_count, like_count, comment_count, total_count, click_count FROM link_stat WHERE url IN ("facebook.com", "google.com")'
+      ));
+      $stream_json = file_get_contents('https://graph.facebook.com/me/home?access_token='.$access_token);  
+      $stream = json_decode($stream_json);
     }
     catch (Exception $e) {
       print_r($e);
     }
     ?>
-    <p>Official Client User: <?php echo $official_user; ?></p>
+    <p>User: <?php echo $user; ?></p>
     <p><fb:bookmark type="off-facebook"></fb:bookmark></p>
     <?php
     echo '<h1>Shares</h1>';
     print_r($shares);
     echo '<h1>Comments</h1>';
-    print_r($comments);
     echo '<fb:comments xid="test"></fb:comments>';
     echo '<h1>Extended Permissions</h1>';
     print_r($extended_permissions);
     echo '<h1>Page Administrators</h1>';
     print_r($page_administrations);
     echo '<h1>Stream Publishing</h1>';
-    print_r($stream);
+    print_r($stream->data);
     ?>
     <p><a href="#" onclick="get_permissions();" />Request Read and Write Permissions</a></p>
     <p><a href="#" onclick="get_write_permission();" />Get Write Permission and Post to Feed Form</a></p>

@@ -1,15 +1,14 @@
 <?php
 
 include 'config.php';
-include 'functions.php';
-include 'facebook-platform/php/facebook.php';
+include 'facebook-platform/src/facebook.php';
 
-$facebook = new Facebook(API_KEY, SECRET);
-$official_user = $facebook->get_loggedin_user();
+$facebook = new Facebook(array(
+  'appId' => APP_ID,
+  'secret' => SECRET
+));
 
-$valid_facebook_session = valid_facebook_session($_COOKIE[API_KEY.'_expires'], $_COOKIE[API_KEY.'_session_key'], $_COOKIE[API_KEY.'_ss'], $_COOKIE[API_KEY.'_user'], $_COOKIE[API_KEY], SECRET);
-
-$unofficial_user = ($valid_facebook_session ? $_COOKIE[API_KEY.'_user'] : false); 
+$user = $facebook->getUser();
 
 ?>
 
@@ -21,23 +20,26 @@ $unofficial_user = ($valid_facebook_session ? $_COOKIE[API_KEY.'_user'] : false)
 </head>
 <body>
  <h1>Test Facebook Platform Page</h1>
- <p>Official Client User: <?php echo $official_user; ?></p>
- <p>Unofficial Client User: <?php echo $unofficial_user; ?></p>
+ <p>User: <?php echo $user; ?></p>
 
  <?php
  
- if($official_user) {
+ if($user) {
   try {
-//   $fql = "SELECT uid2 FROM friend WHERE uid1=".$official_user." LIMIT 10";
-//   $friends_fql = $facebook->api_client->fql_query($fql);
+//   $access_token = $facebook->getAccessToken();
+//   $friends = $facebook->api(array(
+//    'method' => 'fql.query',
+//    'query' => 'SELECT uid2 FROM friend WHERE uid1="'.$user.'" LIMIT 10'
+//   ));
 //   echo '<h2>Friends - FQL</h2>';
-//   foreach($friends_fql as $friend) {
+//   foreach($friends as $friend) {
 //    echo '<p><fb:name uid="'.$friend['uid2'].'" /></p>';
 //   }
-//   $friends = $facebook->api_client->friends_get();
+//   $friends_json = file_get_contents('https://graph.facebook.com/me/friends?access_token='.$access_token);  
+//   $friends = json_decode($friends_json);
 //   echo '<h2>Friends - Facebook API</h2>';
-//   foreach($friends as $friend) {
-//   echo '<p><fb:name uid="'.$friend.'" /></p>';
+//   foreach($friends->data as $friend) {
+//    echo '<p><fb:name uid="'.$friend->id.'" /></p>';
 //   }
    echo '<h2>Group Members</h2>';
    $queries = array(
@@ -45,7 +47,10 @@ $unofficial_user = ($valid_facebook_session ? $_COOKIE[API_KEY.'_user'] : false)
     'members_details' => 'SELECT id, name, url, pic FROM profile WHERE id IN (SELECT uid FROM #group_members)'
    );
    $queries = json_encode($queries);
-   $data = $facebook->api_client->fql_multiquery($queries);
+   $data = $facebook->api(array(
+    'method' => 'fql.multiquery',
+    'queries' => $queries
+   ));
    $group_members = $data[0]['fql_result_set'];
    $members_details = $data[1]['fql_result_set'];
    $i = 0;

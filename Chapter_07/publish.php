@@ -1,10 +1,14 @@
 <?php
 
 include 'config.php';
-include 'facebook-platform/php/facebook.php';
+include 'facebook-platform/src/facebook.php';
 
-$facebook = new Facebook(API_KEY, SECRET);
-$user = $facebook->get_loggedin_user();
+$facebook = new Facebook(array(
+  'appId' => APP_ID,
+  'secret' => SECRET
+));
+
+$user = $facebook->getUser();
 
 function render_publisher_css() {
   return '

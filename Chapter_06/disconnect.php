@@ -1,16 +1,19 @@
 <?php
 
 include 'config.php';
-include 'facebook-platform/php/facebook.php';
+include 'facebook-platform/src/facebook.php';
 
-$facebook = new Facebook(API_KEY, SECRET);
+$facebook = new Facebook(array(
+  'appId' => APP_ID,
+  'secret' => SECRET
+));
 
-try {
- $user = $facebook->get_loggedin_user();
- $disconnect = $facebook->api_client->auth_revokeAuthorization();
-}
-catch (Exception $e) {
- // There was an exception
+$user = $facebook->getUser();
+
+if($user) {
+ $disconnect = $facebook->api(array(
+   'method' => 'auth.revokeAuthorization'
+  ));
 }
 
 ?>
@@ -24,6 +27,6 @@ catch (Exception $e) {
 <body>
  <h1>User Disconnected</h1>
   <p>Status: <?php echo ($disconnect ? "Successful" : "Failed"); ?></p>
- <p><a href="index.php">Back Home</a></p>
+ <p><a href="/facebook/">Back Home</a></p>
 </body>
 </html>

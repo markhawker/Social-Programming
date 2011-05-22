@@ -1,11 +1,14 @@
 <?php
 
 include '../config.php';
-include '../functions.php';
-include '../facebook-platform/php/facebook.php';
+include '../facebook-platform/src/facebook.php';
 
-$facebook = new Facebook(API_KEY, SECRET);
-$user = $facebook->get_loggedin_user();
+$facebook = new Facebook(array(
+  'appId' => APP_ID,
+  'secret' => SECRET
+));
+
+$user = $facebook->getUser();
 
 ?>
 
@@ -24,7 +27,9 @@ $user = $facebook->get_loggedin_user();
   echo '<p>Facebook Name: <fb:name uid="'.$user.'" useyou="false"></fb:name></p>';
  }
  else {
-  $facebook->require_login();
+  $_SESSION['state'] = md5(uniqid(rand(), TRUE));
+  $redirect_url = "http://www.facebook.com/dialog/oauth?client_id=".APP_ID."&redirect_uri=".urlencode(CANVAS_PAGE_URL)."&state=".$_SESSION['state'];
+  echo('<script>top.location.href="'. $redirect_url.'";</script>');
  }
 
  ?>
